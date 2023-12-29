@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/produto")
-@Tag(name = "Produtos", description = "Rest api para operações de produtos")
+@Tag(name = "Produtos", description = "Rest API para operações de produtos do fastfood management system")
 public class ProdutoController {
 
   private final CadastroDeProduto cadastrarProduto;
@@ -37,7 +37,7 @@ public class ProdutoController {
     this.exclusaoDeProduto = exclusaoDeProduto;
   }
 
-  @Operation(summary = "Cadastrar produto")
+  @Operation(summary = "Cadastrar produto no catálogo")
   @PostMapping
   public ResponseEntity<DadosProduto> cadastrarProduto(
       @Valid @RequestBody DadosCadastroProduto dadosCadastroProduto) {
@@ -47,9 +47,7 @@ public class ProdutoController {
             new Produto(
                 dadosCadastroProduto.nome(),
                 dadosCadastroProduto.descricao(),
-                dadosCadastroProduto.categoria(),
-                dadosCadastroProduto.preco(),
-                dadosCadastroProduto.quantidade()));
+                dadosCadastroProduto.categoria()));
 
     DadosProduto dadosProduto = new DadosProduto(produtoCadastrado);
     return ResponseEntity.ok().body(dadosProduto);
@@ -65,7 +63,7 @@ public class ProdutoController {
         : ResponseEntity.notFound().build();
   }
 
-  @Operation(summary = "Atualizar produto")
+  @Operation(summary = "Atualizar produto do catálogo")
   @PutMapping("/{id}")
   public ResponseEntity<DadosProduto> atualizarProduto(
       @PathVariable Integer id, @Valid @RequestBody DadosCadastroProduto dadosCadastroProduto) {
@@ -75,9 +73,7 @@ public class ProdutoController {
             new Produto(
                 dadosCadastroProduto.nome(),
                 dadosCadastroProduto.descricao(),
-                dadosCadastroProduto.categoria(),
-                dadosCadastroProduto.preco(),
-                dadosCadastroProduto.quantidade()));
+                dadosCadastroProduto.categoria()));
     return ResponseEntity.ok(new DadosProduto(produto));
   }
 
@@ -88,7 +84,7 @@ public class ProdutoController {
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Listar todos os produtos")
+  @Operation(summary = "Listar todos os produtos do catálogo")
   @GetMapping("/todos")
   public ResponseEntity<List<DadosProduto>> listarProdutos() {
     List<Produto> produtos = listagemDeProdutos.listarTodosOsProdutos();

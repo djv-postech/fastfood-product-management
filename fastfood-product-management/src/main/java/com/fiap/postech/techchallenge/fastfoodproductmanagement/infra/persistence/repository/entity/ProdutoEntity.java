@@ -17,11 +17,10 @@ public class ProdutoEntity {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   private String nome;
   private String descricao;
-  private BigDecimal preco;
-  private Integer quantidade;
+  private BigDecimal preco = BigDecimal.ZERO;
+  private Integer quantidadeEstoque = 0;
   private Categoria categoria;
 
   public ProdutoEntity(
@@ -29,33 +28,55 @@ public class ProdutoEntity {
       String nome,
       String descricao,
       BigDecimal preco,
-      Integer quantidade,
+      Integer quantidadeEstoque,
       Categoria categoria) {
     this.id = id;
     this.nome = nome;
     this.descricao = descricao;
     this.preco = preco;
-    this.quantidade = quantidade;
+    this.quantidadeEstoque = quantidadeEstoque;
     this.categoria = categoria;
   }
 
   public ProdutoEntity(
+          Integer id,
           String nome,
           String descricao,
-          BigDecimal preco,
-          Integer quantidade,
           Categoria categoria) {
+    this.id = id;
     this.nome = nome;
     this.descricao = descricao;
-    this.preco = preco;
-    this.quantidade = quantidade;
     this.categoria = categoria;
+  }
+
+  public ProdutoEntity(
+          Integer id,
+          String nome,
+          String descricao,
+          Categoria categoria,
+          BigDecimal preco) {
+    this.id = id;
+    this.nome = nome;
+    this.descricao = descricao;
+    this.categoria = categoria;
+    this.preco = preco;
   }
 
   public ProdutoEntity() {}
 
   public static ProdutoEntity from(Produto produto) {
-    return new ProdutoEntity(produto.getId(), produto.getNome(), produto.getDescricao(),produto.getPreco(), produto.getQuantidade(), produto.getCategoria());
+    return new ProdutoEntity(produto.getId(),
+            produto.getNome(),
+            produto.getDescricao(),
+            produto.getCategoria());
+  }
+
+  public static ProdutoEntity fromWithPrice(Produto produto) {
+    return new ProdutoEntity(produto.getId(),
+            produto.getNome(),
+            produto.getDescricao(),
+            produto.getCategoria(),
+            produto.getPreco());
   }
 
   public Integer getId() {
@@ -74,11 +95,13 @@ public class ProdutoEntity {
     return preco;
   }
 
-  public Integer getQuantidade() {
-    return quantidade;
+  public Integer getQuantidadeEstoque() {
+    return quantidadeEstoque;
   }
 
   public Categoria getCategoria() {
     return categoria;
   }
+
+  public void setQuantidadeEstoque(Integer quantidadeEstoque){this.quantidadeEstoque = quantidadeEstoque;}
 }

@@ -9,6 +9,6 @@ public class ProdutoConverter {
 
     public Produto convertFrom(ProdutoEntity produtoEntity){
         return new Produto(produtoEntity.getId(), produtoEntity.getNome(), produtoEntity.getDescricao(), produtoEntity.getPreco(),
-                produtoEntity.getQuantidade(), produtoEntity.getCategoria());
+                produtoEntity.getQuantidadeEstoque(), produtoEntity.getCategoria());
     }
 }

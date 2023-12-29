@@ -41,6 +41,14 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     }
 
     @Override
+    public Produto cadastrarEstoqueProduto(Produto produto) {
+        ProdutoEntity entity = ProdutoEntity.fromWithPrice(produto);
+        entity.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+        ProdutoEntity produtoEntity = produtoRepositoryMysql.save(entity);
+        return produtoConverter.convertFrom(produtoEntity);
+    }
+
+    @Override
     public Produto listarProdutoPorId(Integer id) {
         return produtoRepositoryMysql.findById(id)
                 .map(produtoConverter::convertFrom)
@@ -64,4 +72,6 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
                 .map(produtoConverter::convertFrom)
                 .collect(Collectors.toList());
     }
+
+
 }

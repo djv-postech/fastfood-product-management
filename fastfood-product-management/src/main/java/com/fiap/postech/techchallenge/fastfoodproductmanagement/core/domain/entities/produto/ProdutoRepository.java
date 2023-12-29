@@ -17,4 +17,7 @@ public interface ProdutoRepository {
     List<Produto> listaProdutosPorCategoria(Categoria categoria);
 
     Produto listarProdutoPorNome(String nome);
+
+    Produto cadastrarEstoqueProduto(Produto produto);
+
 }

@@ -5,7 +5,6 @@ import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.enti
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public record DadosCadastroProduto(
@@ -14,12 +13,6 @@ public record DadosCadastroProduto(
 
         @NotBlank
         String descricao,
-
-        @NotNull
-        BigDecimal preco,
-
-        @NotNull
-        Integer quantidade,
 
         @NotNull
         Categoria categoria)  {

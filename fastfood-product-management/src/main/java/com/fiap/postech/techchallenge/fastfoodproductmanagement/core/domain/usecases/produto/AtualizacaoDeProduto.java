@@ -22,9 +22,7 @@ public class AtualizacaoDeProduto {
 
         produtoBanco.setNome(produto.getNome());
         produtoBanco.setDescricao(produto.getDescricao());
-        produtoBanco.setPreco(produto.getPreco());
         produtoBanco.setCategoria(produto.getCategoria());
-        produtoBanco.setQuantidade(produto.getQuantidade());
 
         return produtoRepository.atualizarProduto(produtoBanco);
     }

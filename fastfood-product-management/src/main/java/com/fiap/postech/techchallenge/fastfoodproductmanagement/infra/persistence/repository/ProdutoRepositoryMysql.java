@@ -1,8 +1,10 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.repository;
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.repository.entity.ProdutoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +17,5 @@ public interface ProdutoRepositoryMysql extends JpaRepository<ProdutoEntity, Int
     List<ProdutoEntity> findByCategoria(Categoria categoria);
 
     Optional<ProdutoEntity> findByNome(String nome);
+
 }
