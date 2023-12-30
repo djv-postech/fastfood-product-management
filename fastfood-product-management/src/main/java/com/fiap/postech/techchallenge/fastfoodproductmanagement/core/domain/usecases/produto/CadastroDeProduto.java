@@ -3,6 +3,9 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
+
+import java.util.Objects;
 
 public class CadastroDeProduto {
 
@@ -14,21 +17,16 @@ public class CadastroDeProduto {
 
   public Produto cadastrar(Produto produto) {
 
-    if (produtoJaCadastrado(produto)) {
-      throw new RuntimeException("Produto: " + produto.getNome() + " já cadastrado");
-    }
+//    if (validaProdutoCadastrado(produto)) {
+//      throw new ProdutoException("Produto: " + produto.getNome() + " já cadastrado no catálogo");
+//    }
 
     return produtoRepository.cadastrarProduto(produto);
 
   }
 
-  private boolean produtoJaCadastrado(Produto produto) {
-    try {
-      Produto produtoJaCadastrado = produtoRepository.listarProdutoPorNome(produto.getNome());
-      return produtoJaCadastrado != null;
-    } catch (RuntimeException ex) {
-      return false;
-    }
+  private boolean validaProdutoCadastrado(Produto produto) {
+    return Objects.nonNull(produtoRepository.listarProdutoPorNome(produto.getNome()));
   }
 
 }

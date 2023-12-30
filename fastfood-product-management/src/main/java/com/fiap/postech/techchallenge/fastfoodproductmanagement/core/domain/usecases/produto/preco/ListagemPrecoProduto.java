@@ -2,8 +2,10 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ListagemPrecoProduto {
 
@@ -18,6 +20,14 @@ public class ListagemPrecoProduto {
     }
 
     public Produto listarPrecoDoProdutoPorId(Integer id) {
-        return produtoRepository.listarProdutoPorId(id);
+
+        Produto produto = produtoRepository.listarProdutoPorId(id);
+
+        if (Objects.isNull(produto)) {
+            throw new ProdutoException("Produto de id " + id + " não encontrado no catálogo.");
+        }
+
+        return produto;
+
     }
 }

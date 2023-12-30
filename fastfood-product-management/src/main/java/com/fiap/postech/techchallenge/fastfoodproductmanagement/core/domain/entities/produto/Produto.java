@@ -1,5 +1,7 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto;
 
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.EstoqueException;
+
 import java.math.BigDecimal;
 
 public class Produto {
@@ -77,7 +79,7 @@ public class Produto {
 
     public void adicionarEstoque(Integer quantidade) {
         if(quantidade < 0){
-            throw new IllegalArgumentException("Estoque não pode ser negativo");
+            throw new EstoqueException("Estoque não pode ser negativo");
         }
 
         if(this.quantidadeEstoque == 0){
@@ -89,7 +91,7 @@ public class Produto {
 
     public void subtrairEstoque(Integer quantidadeSubtrair){
         if(quantidadeSubtrair > this.quantidadeEstoque){
-            throw new IllegalArgumentException("Estoque não pode ser negativo");
+            throw new EstoqueException("Estoque não pode ser negativo");
         }
         this.quantidadeEstoque-=quantidadeSubtrair;
     }

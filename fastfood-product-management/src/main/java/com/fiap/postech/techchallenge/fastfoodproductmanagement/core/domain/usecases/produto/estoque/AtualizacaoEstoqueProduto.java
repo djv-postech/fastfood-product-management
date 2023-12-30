@@ -2,7 +2,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.exception.NotFoundException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
 
 import java.util.Objects;
 
@@ -19,7 +19,7 @@ public class AtualizacaoEstoqueProduto {
         Produto produto = produtoRepository.listarProdutoPorId(id);
 
         if(Objects.isNull(produto)){
-            throw new NotFoundException(
+            throw new ProdutoException(
                     "Produto de id: " + id + " não encontrado" );
         }
 

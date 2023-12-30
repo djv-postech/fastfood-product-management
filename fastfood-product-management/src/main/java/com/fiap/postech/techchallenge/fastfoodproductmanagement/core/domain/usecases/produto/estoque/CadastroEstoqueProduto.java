@@ -3,7 +3,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.exception.NotFoundException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.EstoqueException;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public class CadastroEstoqueProduto {
                 dadosCadastroEstoqueProduto.idProduto());
 
         if(Objects.isNull(produto)){
-            throw new NotFoundException(
+            throw new EstoqueException(
                     "Produto de id: " + dadosCadastroEstoqueProduto.idProduto() + " não encontrado" );
         }
 

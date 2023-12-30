@@ -2,6 +2,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
 
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class AtualizacaoDeProduto {
         Produto produtoBanco = produtoRepository.listarProdutoPorId(id);
 
         if (Objects.isNull(produtoBanco)) {
-            throw new RuntimeException("Produto não encontrado - id: " + id);
+            throw new ProdutoException("Produto de id " + id + " não encontrado no catálogo.");
         }
 
         produtoBanco.setNome(produto.getNome());

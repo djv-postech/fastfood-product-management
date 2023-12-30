@@ -77,7 +77,7 @@ public class ProdutoController {
     return ResponseEntity.ok(new DadosProduto(produto));
   }
 
-  @Operation(summary = "Deletar produto do catalogo")
+  @Operation(summary = "Deletar produto do catálogo")
   @DeleteMapping("/{id}")
   public ResponseEntity<DadosProduto> removerProdutoDoCatalogo(@PathVariable Integer id) {
     exclusaoDeProduto.removerProdutoDoCatalogo(id);

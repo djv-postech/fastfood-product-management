@@ -3,7 +3,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persisten
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.exception.NotFoundException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.repository.converter.ProdutoConverter;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.repository.entity.ProdutoEntity;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     public Produto listarProdutoPorNome(String nome) {
         return produtoRepositoryMysql.findByNome(nome)
                 .map(produtoConverter::convertFrom)
-                .orElseThrow(() -> new NotFoundException("Produto: "+ nome +" não encontrado"));
+                .orElse(null);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     public Produto listarProdutoPorId(Integer id) {
         return produtoRepositoryMysql.findById(id)
                 .map(produtoConverter::convertFrom)
-                .orElseThrow(() -> new NotFoundException("Produto de Id: "+ id +" não encontrado"));
+                .orElseThrow(() -> new ProdutoException("Produto de Id: "+ id +" não encontrado"));
     }
 
     @Override

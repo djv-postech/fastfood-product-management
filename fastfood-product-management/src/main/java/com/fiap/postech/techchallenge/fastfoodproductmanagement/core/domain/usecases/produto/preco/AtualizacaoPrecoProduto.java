@@ -3,7 +3,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosAtualizacaoPrecificacaoProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.infra.persistence.exception.NotFoundException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
 
 import java.util.Objects;
 
@@ -19,9 +19,8 @@ public class AtualizacaoPrecoProduto {
 
         Produto produto = produtoRepository.listarProdutoPorId(id);
 
-        if(Objects.isNull(produto)){
-            throw new NotFoundException(
-                    "Produto de id: " + id + " não encontrado" );
+        if (Objects.isNull(produto)) {
+            throw new ProdutoException("Produto de id " + id + " não encontrado no catálogo.");
         }
 
         produto.precificarProduto(dadosAtualizacaoPrecificacaoProduto.preco());
