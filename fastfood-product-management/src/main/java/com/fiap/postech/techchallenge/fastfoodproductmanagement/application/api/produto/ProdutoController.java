@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,7 +42,7 @@ public class ProdutoController {
   @Operation(summary = "Cadastrar produto no catálogo")
   @PostMapping
   public ResponseEntity<DadosProduto> cadastrarProduto(
-      @Valid @RequestBody DadosCadastroProduto dadosCadastroProduto) {
+          @Valid @RequestBody DadosCadastroProduto dadosCadastroProduto, UriComponentsBuilder builder) {
 
     Produto produtoCadastrado =
         cadastrarProduto.cadastrar(
@@ -49,8 +51,8 @@ public class ProdutoController {
                 dadosCadastroProduto.descricao(),
                 dadosCadastroProduto.categoria()));
 
-    DadosProduto dadosProduto = new DadosProduto(produtoCadastrado);
-    return ResponseEntity.ok().body(dadosProduto);
+    URI uri = builder.path("/produto/{id}").buildAndExpand(produtoCadastrado.getId()).toUri();
+    return ResponseEntity.created(uri).body(new DadosProduto(produtoCadastrado));
   }
 
   @Operation(summary = "Listar produto por Id")
@@ -74,7 +76,7 @@ public class ProdutoController {
                 dadosCadastroProduto.nome(),
                 dadosCadastroProduto.descricao(),
                 dadosCadastroProduto.categoria()));
-    return ResponseEntity.ok(new DadosProduto(produto));
+    return ResponseEntity.accepted().body(new DadosProduto(produto));
   }
 
   @Operation(summary = "Deletar produto do catálogo")

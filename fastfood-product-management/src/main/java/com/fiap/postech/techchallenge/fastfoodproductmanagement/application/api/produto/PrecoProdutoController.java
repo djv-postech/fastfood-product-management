@@ -14,7 +14,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,13 +42,13 @@ public class PrecoProdutoController {
   @Operation(summary = "Cadastrar preço do produto")
   @PostMapping
   public ResponseEntity<DadosPrecificacaoProduto> cadastrarPrecoProduto(
-      @Valid @RequestBody DadosCadastroPrecificacaoProduto dadosCadastroPrecificacaoProduto) {
+          @Valid @RequestBody DadosCadastroPrecificacaoProduto dadosCadastroPrecificacaoProduto, UriComponentsBuilder builder) {
 
     Produto produto =
             cadastroPrecoProduto.cadastrar(dadosCadastroPrecificacaoProduto);
 
-    DadosPrecificacaoProduto dadosPrecificacaoProduto = new DadosPrecificacaoProduto(produto);
-    return ResponseEntity.ok().body(dadosPrecificacaoProduto);
+    URI uri = builder.path("/preco/{id}").buildAndExpand(produto.getId()).toUri();
+    return ResponseEntity.created(uri).body(new DadosPrecificacaoProduto(produto));
   }
 
 
@@ -57,7 +59,7 @@ public class PrecoProdutoController {
 
     Produto produto = atualizacaoPrecoProduto.atualizar(id, dadosAtualizacaoPrecificacaoProduto);
 
-    return ResponseEntity.ok(new DadosPrecificacaoProduto(produto));
+    return ResponseEntity.accepted().body(new DadosPrecificacaoProduto(produto));
   }
 
 

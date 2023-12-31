@@ -1,9 +1,6 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.bdd;
 
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosEstoqueProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosProduto;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.*;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.ProdutoHelper;
 import io.cucumber.java.pt.Dado;
@@ -12,6 +9,7 @@ import io.cucumber.java.pt.Quando;
 import io.restassured.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -22,8 +20,10 @@ public class DefinicaoPassosProduto {
     private DadosEstoqueProduto dadosEstoqueProduto;
     private DadosProduto dadosProduto;
 
-    private final String ENDPOINT_API_PRODUTO = "http://localhost:8080/produto";
-    private final String ENDPOINT_API_ESTOQUE_PRODUTO = "http://localhost:8080/estoque";
+    private final String BASE_URL = "http://localhost:8080";
+    private final String ENDPOINT_API_PRODUTO = BASE_URL + "/produto";
+    private final String ENDPOINT_API_ESTOQUE_PRODUTO = BASE_URL + "/estoque";
+    private final String ENDPOINT_API_PRECIFICACAO_PRODUTO = BASE_URL + "/preco";
 
 
     @Quando("cadastrar um novo produto")
@@ -43,8 +43,7 @@ public class DefinicaoPassosProduto {
     @Entao("o produto é cadastrado no catalogo com sucesso")
     public void o_produto_é_cadastrado_no_catalogo_com_sucesso() {
         response.then()
-                .statusCode(HttpStatus.OK.value())
-                .body(matchesJsonSchemaInClasspath("schemas/dados_produto.schema.json"));
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Entao("deve ser apresentado")
@@ -68,6 +67,18 @@ public class DefinicaoPassosProduto {
                 .body(matchesJsonSchemaInClasspath("schemas/dados_produto.schema.json"));
     }
 
+    @Quando("pesquisar um produto que nao existe no catalogo")
+    public void pesquisar_um_produto_que_nao_existe_no_catalogo() {
+        response = when()
+                .get(ENDPOINT_API_PRODUTO + "/{id}", 200);
+    }
+    @Entao("uma mensagem de erro deve ser apresentada")
+    public void uma_mensagem_de_erro_deve_ser_apresentada() {
+       response.then()
+               .statusCode(HttpStatus.NOT_FOUND.value())
+               .body(matchesJsonSchemaInClasspath("schemas/erro.schema.json"));
+    }
+
     @Quando("efetuar requisicao para alterar um produto")
     public void efetuar_requisicao_para_alterar_um_produto() {
           response =
@@ -80,18 +91,51 @@ public class DefinicaoPassosProduto {
     @Entao("o produto é atualizado com sucesso")
     public void o_produto_é_atualizado_com_sucesso() {
         response.then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.ACCEPTED.value());
     }
 
     @Quando("requisitar a remocao do produto")
     public void requisitar_a_remocao_do_produto() {
-        when()
+         response = when()
                 .delete(ENDPOINT_API_PRODUTO + "/{id}", dadosProduto.id());
     }
     @Entao("o produto é removido do catalogo com sucesso")
     public void o_produto_é_removido_do_catalogo_com_sucesso() {
         response.then()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Quando("evefuar a requiscao da listagem de todos os produtos")
+    public void evefuar_a_requiscao_da_listagem_de_todos_os_produtos() {
+        response =
+                when()
+                    .get(ENDPOINT_API_PRODUTO + "/todos");
+    }
+    @Entao("a lista de produtos cadastrados é retornada com sucesso")
+    public void a_lista_de_produtos_cadastrados_é_retornada_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.OK.value());
+    }
+    @Entao("deve ser apresentada")
+    public void deve_ser_apresentada() {
+        response.then()
+                .body(matchesJsonSchemaInClasspath("schemas/lista_dados_produto.schema.json"));
+    }
+
+    @Quando("buscar um produto por categoria")
+    public void buscar_um_produto_por_categoria() {
+       response =
+               given()
+               .queryParam("categoria", "LANCHE")
+               .when()
+               .get(ENDPOINT_API_PRODUTO);
+    }
+
+    @Entao("a listagem de produtos da categoria é exibida com sucesso")
+    public void a_listagem_de_produtos_da_categoria_é_exibida_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.OK.value())
+                .body(matchesJsonSchemaInClasspath("schemas/lista_dados_produto.schema.json"));
     }
 
     @Quando("cadastrar estoque do produto")
@@ -110,7 +154,7 @@ public class DefinicaoPassosProduto {
     @Entao("o estoque do produto é cadastrado com sucesso")
     public void o_estoque_do_produto_é_cadastrado_com_sucesso() {
         response.then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
 
     }
     @Entao("a informacao de estoque deve ser apresentada")
@@ -124,13 +168,12 @@ public class DefinicaoPassosProduto {
         dadosEstoqueProduto = cadastrar_estoque_do_produto();
 
     }
-    @Quando("subrair um valor do estoque do produto")
-    public void subrair_um_valor_do_estoque_do_produto() {
-
-       response = given()
-                  .queryParam("quantidade", 1)
-               .when()
-                  .post(ENDPOINT_API_ESTOQUE_PRODUTO + "/produto/{id}", dadosEstoqueProduto.idProduto());
+    @Quando("subtrair um valor do estoque do produto")
+    public void subtrair_um_valor_do_estoque_do_produto() {
+        response = given()
+                      .queryParam("quantidade", 1)
+                  .when()
+                      .post(ENDPOINT_API_ESTOQUE_PRODUTO + "/produto/{id}", dadosEstoqueProduto.idProduto());
     }
     @Entao("o valor é subtraido do estoque com sucesso")
     public void o_valor_é_subtraido_do_estoque_com_sucesso() {
@@ -140,16 +183,79 @@ public class DefinicaoPassosProduto {
 
     @Quando("requisitar atualizacao de estoque de um produto")
     public void requisitar_atualizacao_de_estoque_de_um_produto() {
-        given()
+        response = given()
                 .queryParam("quantidade", 200)
 
         .when()
-                .put(ENDPOINT_API_ESTOQUE_PRODUTO + "/produto/{id}", dadosEstoqueProduto.idProduto());
+                .put(ENDPOINT_API_ESTOQUE_PRODUTO + "/produto/{id}", dadosProduto.id());
 
     }
     @Entao("o estoque do produto é atualizado com sucesso")
     public void o_estoque_do_produto_é_atualizado_com_sucesso() {
         response.then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.ACCEPTED.value());
+    }
+
+    @Quando("requisitar a listagem de estoque de todos os produtos")
+    public void requisitar_a_listagem_de_estoque_de_todos_os_produtos() {
+        response = when()
+                .get(ENDPOINT_API_ESTOQUE_PRODUTO + "/total");
+    }
+    @Entao("a listagem de estoque dos produtos é apresentada com sucesso")
+    public void a_listagem_de_estoque_dos_produtos_é_apresentada_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.OK.value())
+                .body(matchesJsonSchemaInClasspath("schemas/lista_dados_estoque_produto.schema.json"));
+    }
+
+    @Quando("requisitar o cadastro de preço do produto")
+    public void requisitar_o_cadastro_de_preço_do_produto() {
+        DadosCadastroPrecificacaoProduto dadosCadastroPrecificacaoProduto = ProdutoHelper
+                .gerarDadosCadastroPrecificacaoProduto();
+
+        response = given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(dadosCadastroPrecificacaoProduto)
+                .when()
+                .post(ENDPOINT_API_PRECIFICACAO_PRODUTO);
+    }
+    @Entao("o preço do produto é cadastrado com sucesso")
+    public void o_preço_do_produto_é_cadastrado_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.CREATED.value());
+    }
+    @Entao("a informacao deve ser apresentada")
+    public void a_informacao_deve_ser_apresentada() {
+       response.then()
+               .body(matchesJsonSchemaInClasspath("schemas/dados_precificacao_produto.schema.json"));
+    }
+
+    @Quando("requisitar atualizacao de preço de um produto")
+    public void requisitar_atualizacao_de_preço_de_um_produto() {
+        DadosAtualizacaoPrecificacaoProduto dadosAtualizacaoPrecificacaoProduto = ProdutoHelper
+                .gerarDadosAtualizacaoPrecoProduto();
+
+        response = given()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(dadosAtualizacaoPrecificacaoProduto)
+                .when()
+                    .put(ENDPOINT_API_PRECIFICACAO_PRODUTO + "/produto/{id}", dadosProduto.id());
+    }
+    @Entao("o preço do produto é atualizado com sucesso")
+    public void o_preço_do_produto_é_atualizado_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.ACCEPTED.value());
+    }
+
+    @Quando("requisitar a listagem de preços de todos os produtos no catálogo")
+    public void requisitar_a_listagem_de_preços_de_todos_os_produtos_no_catálogo() {
+        response = when()
+                .get(ENDPOINT_API_PRECIFICACAO_PRODUTO + "/produto/todos");
+    }
+    @Entao("a listagem é apresentada com sucesso")
+    public void a_listagem_é_apresentada_com_sucesso() {
+        response.then()
+                .statusCode(HttpStatus.OK.value())
+                .body(matchesJsonSchemaInClasspath("schemas/lista_dados_precificacao_produto.schema.json"));
     }
 }

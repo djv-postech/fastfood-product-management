@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,13 +43,13 @@ public class EstoqueProdutoController {
   @Operation(summary = "Cadastrar estoque produto")
   @PostMapping
   public ResponseEntity<DadosEstoqueProduto> cadastrarEstoqueProduto(
-      @Valid @RequestBody DadosCadastroEstoqueProduto dadosCadastroEstoqueProduto) {
+          @Valid @RequestBody DadosCadastroEstoqueProduto dadosCadastroEstoqueProduto, UriComponentsBuilder builder) {
 
     Produto produto =
         cadastroEstoqueProduto.cadastrar(dadosCadastroEstoqueProduto);
 
-    DadosEstoqueProduto dadosEstoqueProduto = new DadosEstoqueProduto(produto);
-    return ResponseEntity.ok().body(dadosEstoqueProduto);
+    URI uri = builder.path("/estoque/{id}").buildAndExpand(produto.getId()).toUri();
+    return ResponseEntity.created(uri).body(new DadosEstoqueProduto(produto));
   }
 
   @Operation(summary = "Subtrai estoque do produto de Id")
@@ -68,7 +70,7 @@ public class EstoqueProdutoController {
     Produto produto =
             atualizacaoEstoqueProduto.atualizar(id, quantidade);
 
-    return ResponseEntity.ok(new DadosEstoqueProduto(produto));
+    return ResponseEntity.accepted().body(new DadosEstoqueProduto(produto));
   }
 
 
