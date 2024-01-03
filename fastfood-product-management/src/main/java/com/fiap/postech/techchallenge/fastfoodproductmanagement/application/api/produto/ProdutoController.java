@@ -4,10 +4,12 @@ import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoNotFoundException;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -57,12 +59,16 @@ public class ProdutoController {
 
   @Operation(summary = "Listar produto por Id")
   @GetMapping("/{id}")
-  public ResponseEntity<DadosProduto> listarProduto(@PathVariable Integer id) {
-    Produto produto = listagemDeProdutoPorId.listarProdutoPorId(id);
+  public ResponseEntity<?> listarProduto(@PathVariable Integer id) {
+    try {
 
-    return Objects.nonNull(produto)
-        ? ResponseEntity.ok(new DadosProduto(produto))
-        : ResponseEntity.notFound().build();
+      Produto produto = listagemDeProdutoPorId.listarProdutoPorId(id);
+      return ResponseEntity.ok(new DadosProduto(produto));
+
+    } catch (ProdutoNotFoundException exception){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+              .body(exception.getMessage());
+    }
   }
 
   @Operation(summary = "Atualizar produto do catálogo")

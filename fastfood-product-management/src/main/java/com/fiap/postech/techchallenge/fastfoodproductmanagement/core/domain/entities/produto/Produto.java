@@ -1,6 +1,7 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto;
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.EstoqueException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.PrecoException;
 
 import java.math.BigDecimal;
 
@@ -67,7 +68,7 @@ public class Produto {
 
     public void precificarProduto(BigDecimal precoProduto) {
         if(precoProduto.compareTo(BigDecimal.ZERO) < 0){
-            throw new IllegalArgumentException("O preço do produto não pode ser negativo");
+            throw new PrecoException("O preço do produto não pode ser negativo");
         }
 
         this.preco = precoProduto;
@@ -82,7 +83,7 @@ public class Produto {
             throw new EstoqueException("Estoque não pode ser negativo");
         }
 
-        if(this.quantidadeEstoque == 0){
+        if(this.quantidadeEstoque == null){
             this.quantidadeEstoque = quantidade;
         }else{
             this.quantidadeEstoque += quantidade;

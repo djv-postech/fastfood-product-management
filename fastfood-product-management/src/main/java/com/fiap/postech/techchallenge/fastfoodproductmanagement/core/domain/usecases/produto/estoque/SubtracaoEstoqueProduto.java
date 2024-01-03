@@ -2,7 +2,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.use
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoException;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.ProdutoNotFoundException;
 
 import java.util.Objects;
 
@@ -19,8 +19,8 @@ public class SubtracaoEstoqueProduto {
         Produto produto = produtoRepository.listarProdutoPorId(idProduto);
 
         if(Objects.isNull(produto)){
-            throw new ProdutoException(
-                    "Produto de id: " + idProduto + " não encontrado" );
+            throw new ProdutoNotFoundException(
+                    "Produto de id "  + idProduto + " não encontrado" );
         }
 
         produto.subtrairEstoque(quantidade);

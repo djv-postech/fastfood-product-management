@@ -46,7 +46,7 @@ public class EstoqueProdutoController {
           @Valid @RequestBody DadosCadastroEstoqueProduto dadosCadastroEstoqueProduto, UriComponentsBuilder builder) {
 
     Produto produto =
-        cadastroEstoqueProduto.cadastrar(dadosCadastroEstoqueProduto);
+        cadastroEstoqueProduto.cadastrar(dadosCadastroEstoqueProduto.idProduto(), dadosCadastroEstoqueProduto.quantidadeEstoque());
 
     URI uri = builder.path("/estoque/{id}").buildAndExpand(produto.getId()).toUri();
     return ResponseEntity.created(uri).body(new DadosEstoqueProduto(produto));

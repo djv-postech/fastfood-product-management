@@ -1,6 +1,5 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.estoque;
 
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.ProdutoRepository;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.exception.EstoqueException;
@@ -15,16 +14,15 @@ public class CadastroEstoqueProduto {
         this.produtoRepository = produtoRepository;
     }
 
-    public Produto cadastrar(DadosCadastroEstoqueProduto dadosCadastroEstoqueProduto) {
-        Produto produto = produtoRepository.listarProdutoPorId(
-                dadosCadastroEstoqueProduto.idProduto());
+    public Produto cadastrar(Integer idProduto, Integer quantidade) {
+        Produto produto = produtoRepository.listarProdutoPorId(idProduto);
 
         if(Objects.isNull(produto)){
             throw new EstoqueException(
-                    "Produto de id: " + dadosCadastroEstoqueProduto.idProduto() + " não encontrado" );
+                    "Produto de id: " + idProduto + " não encontrado" );
         }
 
-        produto.adicionarEstoque(dadosCadastroEstoqueProduto.quantidadeEstoque());
+        produto.adicionarEstoque(quantidade);
 
         return produtoRepository.cadastrarEstoqueProduto(produto);
     }

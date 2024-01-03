@@ -104,4 +104,6 @@ public class ProdutoEntity {
   }
 
   public void setQuantidadeEstoque(Integer quantidadeEstoque){this.quantidadeEstoque = quantidadeEstoque;}
+
+  public void setPreco(BigDecimal preco){this.preco = preco;}
 }

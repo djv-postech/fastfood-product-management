@@ -31,8 +31,7 @@ public class PrecoProdutoController {
   private final ListagemPrecoProduto listagemPrecoProduto;
 
 
-  public PrecoProdutoController(CadastroPrecoProduto cadastroPrecoProduto, AtualizacaoPrecoProduto atualizacaoPrecoProduto, ListagemPrecoProduto listagemPrecoProduto,
-                                ListagemEstoqueProduto listagemEstoqueProduto) {
+  public PrecoProdutoController(CadastroPrecoProduto cadastroPrecoProduto, AtualizacaoPrecoProduto atualizacaoPrecoProduto, ListagemPrecoProduto listagemPrecoProduto) {
 
     this.cadastroPrecoProduto = cadastroPrecoProduto;
     this.atualizacaoPrecoProduto = atualizacaoPrecoProduto;

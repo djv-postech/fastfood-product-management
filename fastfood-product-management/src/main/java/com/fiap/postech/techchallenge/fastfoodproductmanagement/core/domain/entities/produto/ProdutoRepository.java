@@ -20,4 +20,6 @@ public interface ProdutoRepository {
 
     Produto cadastrarEstoqueProduto(Produto produto);
 
+    Produto cadastrarPrecoProduto(Produto produto);
+
 }
