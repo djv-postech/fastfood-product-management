@@ -11,7 +11,6 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 
-@Builder
 @Entity
 public class ProdutoEntity {
 
@@ -22,21 +21,6 @@ public class ProdutoEntity {
   private BigDecimal preco = BigDecimal.ZERO;
   private Integer quantidadeEstoque = 0;
   private Categoria categoria;
-
-  public ProdutoEntity(
-      Integer id,
-      String nome,
-      String descricao,
-      BigDecimal preco,
-      Integer quantidadeEstoque,
-      Categoria categoria) {
-    this.id = id;
-    this.nome = nome;
-    this.descricao = descricao;
-    this.preco = preco;
-    this.quantidadeEstoque = quantidadeEstoque;
-    this.categoria = categoria;
-  }
 
   public ProdutoEntity(
           Integer id,
@@ -104,6 +88,4 @@ public class ProdutoEntity {
   }
 
   public void setQuantidadeEstoque(Integer quantidadeEstoque){this.quantidadeEstoque = quantidadeEstoque;}
-
-  public void setPreco(BigDecimal preco){this.preco = preco;}
 }
