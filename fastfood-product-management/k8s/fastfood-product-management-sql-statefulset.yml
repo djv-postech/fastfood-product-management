@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: fastfood-product-management-mysql-statefulset
+  labels:
+    app: fastfood-product-mananagement-mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: fastfood-product-management-mysql
+      labels:
+        app: fastfood-product-management-mysql
+    spec:
+      containers:
+        - name: fastfood-product-management-mysql-container
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-mysql-secret-opaque
+                  key: MYSQL_ROOT_PASSWORD
+
+#            - name: MYSQL_USER
+#              valueFrom:
+#                secretKeyRef:
+#                  name: fastfood-product-management-mysql-secret-opaque
+#                  key: MYSQL_USER
+#
+#            - name: MYSQL_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: fastfood-product-management-mysql-secret-opaque
+#                  key: MYSQL_PASSWORD
+
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-mysql-secret-opaque
+                  key: MYSQL_DATABASE
+  selector:
+    matchLabels:
+      app: fastfood-product-management-mysql
+  serviceName: fastfood-product-management-mysql-service

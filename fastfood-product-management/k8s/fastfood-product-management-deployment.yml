@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastfood-product-management-deployment
+  labels:
+    app: fastfood-product-management
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: fastfood-product-management
+      labels:
+        app: fastfood-product-management
+    spec:
+      containers:
+        - name: fastfood-product-management-container
+          image: soatpostech/fastfood-product-management:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: MYSQL_HOST
+
+            - name: MYSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: MYSQL_USERNAME
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: MYSQL_PASSWORD
+
+            - name: MYSQL_DB
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: MYSQL_DB
+
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health/
+#              port: 8080
+#            periodSeconds: 10
+#            failureThreshold: 3
+#            initialDelaySeconds: 30
+#          readinessProbe:
+#             httpGet:
+#               path: /actuator/health
+#               port: 8080
+#             periodSeconds: 10
+#             failureThreshold: 5
+#             initialDelaySeconds: 10
+#          resources:
+#            requests:
+#              cpu: 10m
+  selector:
+    matchLabels:
+      app: fastfood-product-management
