@@ -3,6 +3,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosSubtracaoEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.ProdutoHelper;
@@ -10,6 +11,8 @@ import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usec
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.estoque.CadastroEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.estoque.ListagemEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.estoque.SubtracaoEstoqueProduto;
+
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,12 +25,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,6 +104,30 @@ class EstoqueProdutoControllerTest {
 
         verify(subtracaoEstoqueProduto, times(1))
                 .subtrair(any(Integer.class), any(Integer.class));
+
+    }
+
+    @DisplayName("Test - Deve permitir subtrair estoque de produto do catálogo")
+    @Test
+    public void devePermitirSubtrairEstoqueDeUmaListaDeProdutosDoCatalogo() throws Exception {
+        // Dado
+        DadosSubtracaoEstoqueProduto dadosSubtracaoEstoqueProduto1 = new DadosSubtracaoEstoqueProduto(1, 1);
+        DadosSubtracaoEstoqueProduto dadosSubtracaoEstoqueProduto2 = new DadosSubtracaoEstoqueProduto(2, 1);
+
+        List<DadosSubtracaoEstoqueProduto> dadosSubtracaoEstoqueProdutoList = new ArrayList<>();
+        dadosSubtracaoEstoqueProdutoList.add(dadosSubtracaoEstoqueProduto1);
+        dadosSubtracaoEstoqueProdutoList.add(dadosSubtracaoEstoqueProduto2);
+
+         doNothing().when(subtracaoEstoqueProduto).subtrairEstoqueListaProdutos(dadosSubtracaoEstoqueProdutoList);
+
+         // Quando
+         mockMvc.perform(post("/estoque/produto")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertToJson(dadosSubtracaoEstoqueProdutoList)))
+                .andExpect(status().isOk());
+
+        verify(subtracaoEstoqueProduto, times(1))
+                .subtrairEstoqueListaProdutos(any(List.class));
 
     }
 

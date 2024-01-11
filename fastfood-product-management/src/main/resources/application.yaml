@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     drive-class-name: com.mysql.jdbc.Driver
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-    url: jdbc:mysql://${MYSQL_HOST}/product_management_db
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+    url: jdbc:mysql://${MYSQL_HOST:localhost:3306}/product_management_db
 
   jpa:
     hibernate:

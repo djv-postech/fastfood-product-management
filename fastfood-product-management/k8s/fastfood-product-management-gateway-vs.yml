@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fastfood-product-management-gateway-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+    - fastfood-product-management-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: fastfood-product-management-service
+        port:
+          number: 8081

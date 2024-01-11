@@ -2,6 +2,7 @@ package com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api
 
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosEstoqueProduto;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosSubtracaoEstoqueProduto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.*;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto.estoque.AtualizacaoEstoqueProduto;
@@ -62,6 +63,16 @@ public class EstoqueProdutoController {
         ? ResponseEntity.ok(new DadosEstoqueProduto(produto))
         : ResponseEntity.notFound().build();
   }
+
+  @Operation(summary = "Subtrai estoque lista de produtos")
+  @PostMapping("/produto")
+  public ResponseEntity<?> subtrairEstoqueProduto(@RequestBody List<DadosSubtracaoEstoqueProduto> dadosSubtracaoEstoqueProdutos) {
+
+    subtracaoEstoqueProduto.subtrairEstoqueListaProdutos(dadosSubtracaoEstoqueProdutos);
+
+    return ResponseEntity.ok().build();
+  }
+
 
   @Operation(summary = "Atualizar estoque de produto")
   @PutMapping("/produto/{id}")

@@ -1,0 +1,11 @@
+resources:
+  - fastfood-product-management-secrets.yml
+  - fastfood-product-management-sql-secrets.yml
+  - fastfood-product-management-svc.yml
+  - fastfood-product-management-sql-svc.yml
+  - fastfood-product-management-deployment.yml
+  - fastfood-product-management-sql-statefulset.yml
+  - fastfood-product-management-gateway.yml
+  - fastfood-product-management-gateway-vs.yml
+  - fastfood-product-management-deployment-vs.yml
+  - fastfood-product-management-statefulset-vs.yml
