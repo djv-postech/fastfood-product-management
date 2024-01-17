@@ -9,5 +9,9 @@ spec:
     - route:
         - destination:
             host: fastfood-product-management-service
-            port:
-              number: 8081
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - POST
+          - GET

@@ -11,6 +11,8 @@ spec:
       name: fastfood-product-management-mysql
       labels:
         app: fastfood-product-management-mysql
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         - name: fastfood-product-management-mysql-container

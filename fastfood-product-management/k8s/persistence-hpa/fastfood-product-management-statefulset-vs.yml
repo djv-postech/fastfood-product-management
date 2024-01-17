@@ -9,5 +9,9 @@ spec:
     - route:
         - destination:
             host: fastfood-product-management-mysql-service
-            port:
-              number: 3306
+      corsPolicy:
+        allowOrigins:
+          - exact: "*"
+        allowMethods:
+          - POST
+          - GET
