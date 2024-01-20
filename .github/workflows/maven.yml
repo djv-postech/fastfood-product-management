@@ -60,39 +60,29 @@ jobs:
       run: cd fastfood-product-management && mvn dockerfile:push
 
   
-  # Deploy_EKS:
-  #     needs: Build
-  #     runs-on: ubuntu-latest
+  Deploy_EKS:
+      needs: Build
+      runs-on: ubuntu-latest
      
-  #     steps:
+      steps:
    
-  #     - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
  
-  #     - name: Configurando Credenciais AWS
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-  #         aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-  #         aws-region: us-east-1
+      - name: Configurando Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region: us-east-1
  
-  #     - name: Setup SSH
-  #       uses: MrSquaare/ssh-setup-action@v1
-  #       with:
-  #         host: github.com
-  #         private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-  #     - name: Clone Infra Repository
-  #       run: git clone git@github.com:djv-postech/fastfood-management-ci-infra.git
+      - name: Kubectl Tool Setup
+        uses: Azure/setup-kubectl@v3
  
-  #     - name: Kubectl Tool Setup
-  #       uses: Azure/setup-kubectl@v3
- 
-  #     - run: aws sts get-caller-identity
+      - run: aws sts get-caller-identity
        
-  #     - run: aws eks update-kubeconfig --region us-east-1 --name fastfood-management-cluster
+      - run: aws eks update-kubeconfig --region us-east-1 --name fastfood-management-cluster
       
-  #     - run: chmod 755 fastfood-management-ci-infra/init.sh
-  #     - run: cd fastfood-management-ci-infra && ./init.sh
+      - run: cd fastfood-product-management && kubectl apply -f /k8s
       
 
  
