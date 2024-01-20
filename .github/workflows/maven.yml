@@ -81,7 +81,8 @@ jobs:
       - run: aws sts get-caller-identity
        
       - run: aws eks update-kubeconfig --region us-east-1 --name fastfood-management-cluster
-      
+
+      - run: cd fastfood-product-management
       - run: cd fastfood-product-management && kubectl apply -f /k8s
       
 
