@@ -9,7 +9,6 @@ Serviço responsável pelo gerenciamento de produtos, preço e estoque do sistem
 ### [Api Produto](#Api Produto)
 
 <br>
-<br>
 
 #### **Cadastro de produto**
 
@@ -22,18 +21,10 @@ POST /produto
   "categoria": "LANCHE"
 }
 ```
-</br>
 
-#### **Gestão de estoque**
+<br>
 
-Exemplo Payload :
-```javascript
-POST /estoque
-{
-  "idProduto": 1,
-  "quantidadeEstoque": 70
-}
-```
+### [Api Estoque](#Api Estoque)
 
 <br>
 
@@ -48,12 +39,17 @@ POST /estoque
 }
 ```
 
+
 Subtração de estoque :
 ```javascript
 POST /estoque/produto/1?quantidade=5
 ```
 
 ![Fluxo subtracao_estoque](imagens/fluxo-subtracao-estoque.png)
+
+<br>
+
+### [Api Preço](#Api Preço)
 
 <br>
 
