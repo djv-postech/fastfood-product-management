@@ -7,6 +7,7 @@ import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 import io.restassured.response.Response;
+import org.assertj.core.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -20,7 +21,7 @@ public class DefinicaoPassosProduto {
     private DadosEstoqueProduto dadosEstoqueProduto;
     private DadosProduto dadosProduto;
 
-    private final String BASE_URL = "http://localhost:8080";
+    private final String BASE_URL = "http://localhost:8081";
     private final String ENDPOINT_API_PRODUTO = BASE_URL + "/produto";
     private final String ENDPOINT_API_ESTOQUE_PRODUTO = BASE_URL + "/estoque";
     private final String ENDPOINT_API_PRECIFICACAO_PRODUTO = BASE_URL + "/preco";
@@ -56,6 +57,7 @@ public class DefinicaoPassosProduto {
     public void que_um_produto_já_foi_cadastrado_no_catalogo() {
         dadosProduto = cadastrar_um_novo_produto();
     }
+
     @Quando("quando buscar o produto")
     public void quando_buscar_o_produto() {
        response = when()
@@ -74,9 +76,15 @@ public class DefinicaoPassosProduto {
     }
     @Entao("uma mensagem de erro deve ser apresentada")
     public void uma_mensagem_de_erro_deve_ser_apresentada() {
+
+        var body = response.then().extract().body().asPrettyString();
+
        response.then()
-               .statusCode(HttpStatus.NOT_FOUND.value())
-               .body(matchesJsonSchemaInClasspath("schemas/erro.schema.json"));
+               .statusCode(HttpStatus.NOT_FOUND.value());
+
+        Assertions.assertThat(body).isEqualTo("Produto de id 200 não encontrado no catálogo.");
+
+
     }
 
     @Quando("efetuar requisicao para alterar um produto")
