@@ -1,5 +1,5 @@
 # fastfood-product-management
-
+***
 Serviço responsável pelo gerenciamento de produtos, preço e estoque do sistema fastfood
 
 
@@ -9,7 +9,7 @@ Serviço responsável pelo gerenciamento de produtos, preço e estoque do sistem
 ***
 ### [Api Produto](#Api_Produto)
 
-<br>
+***
 
 #### **Cadastro de produto**
 
@@ -27,7 +27,7 @@ POST /produto
 
 ### [Api Estoque](#Api_Estoque)
 
-<br>
+***
 
 #### **Gestão de estoque**
 
@@ -52,7 +52,7 @@ POST /estoque/produto/1?quantidade=5
 
 ### [Api Preço](#Api_Preço)
 
-<br>
+***
 
 #### **Gestão de preço**
 
