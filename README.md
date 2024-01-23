@@ -67,13 +67,15 @@ POST /preco
 <br>
 
 ### [Tecnologias](#Tecnologias)
-
+***
 * Java
 * Spring Boot
 * Swagger
 * MySQL
 * Docker
 * Kubernetes
+
+<br>
 
 ### [Grupo 7](#grupo-7)
 ***
