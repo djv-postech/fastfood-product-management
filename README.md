@@ -6,7 +6,7 @@ Serviço responsável pelo gerenciamento de produtos, preço e estoque do sistem
 - Gestão de preços de produtos
 - Gestão de estoque de produtos
 ***
-### [Api Produto](#Api Produto)
+### [Api Produto](#Api_Produto)
 
 <br>
 
@@ -24,7 +24,7 @@ POST /produto
 
 <br>
 
-### [Api Estoque](#Api Estoque)
+### [Api Estoque](#Api_Estoque)
 
 <br>
 
@@ -49,7 +49,7 @@ POST /estoque/produto/1?quantidade=5
 
 <br>
 
-### [Api Preço](#Api Preço)
+### [Api Preço](#Api_Preço)
 
 <br>
 
@@ -65,3 +65,17 @@ POST /preco
 ```
 
 <br>
+
+### [Tecnologias](#Tecnologias)
+
+* Java
+* Spring Boot
+* Swagger
+* MySQL
+* Docker
+* Kubernetes
+
+### [Grupo 7](#grupo-7)
+***
+* Jackson Carlos Leite Ramalho (jacksoncarloslr@gmail.com)
+* Valqueline Nicácio da Silva (valqueline.nicacio@gmail.com)
