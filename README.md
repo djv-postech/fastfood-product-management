@@ -79,5 +79,5 @@ POST /preco
 
 ### [Grupo 7](#grupo-7)
 ***
-* Jackson Carlos Leite Ramalho (jacksoncarloslr@gmail.com)
-* Valqueline Nicácio da Silva (valqueline.nicacio@gmail.com)
+* Jackson Carlos Leite Ramalho
+* Valqueline Nicácio da Silva
