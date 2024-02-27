@@ -7,6 +7,11 @@ spring:
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:}
     url: jdbc:mysql://${MYSQL_HOST:localhost:3306}/product_management_db
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: 5672
+    username: ${RABBIT_USERNAME:guest}
+    password: ${RABBIT_PASSWORD:guest}
 
   jpa:
     hibernate:
