@@ -1,14 +1,17 @@
 # fastfood-product-management
+***
 Serviço responsável pelo gerenciamento de produtos, preço e estoque do sistema fastfood
 
 
 - Gestão de catálogo de produtos
 - Gestão de preços de produtos
 - Gestão de estoque de produtos
-***
-### [Api Produto](#Api Produto)
-
+  
 <br>
+
+### [Api Produto](#Api_Produto)
+
+***
 
 #### **Cadastro de produto**
 
@@ -24,9 +27,9 @@ POST /produto
 
 <br>
 
-### [Api Estoque](#Api Estoque)
+### [Api Estoque](#Api_Estoque)
 
-<br>
+***
 
 #### **Gestão de estoque**
 
@@ -49,9 +52,9 @@ POST /estoque/produto/1?quantidade=5
 
 <br>
 
-### [Api Preço](#Api Preço)
+### [Api Preço](#Api_Preço)
 
-<br>
+***
 
 #### **Gestão de preço**
 
@@ -65,3 +68,19 @@ POST /preco
 ```
 
 <br>
+
+### [Tecnologias](#Tecnologias)
+***
+* Java
+* Spring Boot
+* Swagger
+* MySQL
+* Docker
+* Kubernetes
+
+<br>
+
+### [Grupo 7](#grupo-7)
+***
+* Jackson Carlos Leite Ramalho
+* Valqueline Nicácio da Silva
