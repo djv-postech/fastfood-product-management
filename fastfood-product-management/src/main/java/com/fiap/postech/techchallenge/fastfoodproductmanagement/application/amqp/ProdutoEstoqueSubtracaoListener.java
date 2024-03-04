@@ -19,7 +19,7 @@ public class ProdutoEstoqueSubtracaoListener {
     }
 
     @RabbitListener(queues = PRODUTO_ESTOQUE_SUBTRACAO_QUEUE)
-    public void cadastrarPedido(List<DadosSubtracaoEstoqueProduto> dadosSubtracaoEstoqueProdutos){
+    public void subtrairEstoque(List<DadosSubtracaoEstoqueProduto> dadosSubtracaoEstoqueProdutos){
         subtracaoEstoqueProduto.subtrairEstoqueListaProdutos(dadosSubtracaoEstoqueProdutos);
     }
 }
