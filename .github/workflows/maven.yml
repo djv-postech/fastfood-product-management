@@ -92,7 +92,7 @@ jobs:
       run: cd fastfood-product-management && mvn dockerfile:push
 
   
-  Deploy_EKS:
+  DeployEKS:
       name: Deploy on EKS
       needs: Build
       runs-on: ubuntu-latest

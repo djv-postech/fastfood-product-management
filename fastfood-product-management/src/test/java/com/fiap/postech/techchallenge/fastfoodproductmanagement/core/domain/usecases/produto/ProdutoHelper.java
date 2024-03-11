@@ -1,13 +1,12 @@
 package com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.usecases.produto;
 
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosAtualizacaoPrecificacaoProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroEstoqueProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroPrecificacaoProduto;
-import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.DadosCadastroProduto;
+import com.fiap.postech.techchallenge.fastfoodproductmanagement.application.api.produto.records.*;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Categoria;
 import com.fiap.postech.techchallenge.fastfoodproductmanagement.core.domain.entities.produto.Produto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoHelper {
 
@@ -49,5 +48,11 @@ public class ProdutoHelper {
 
     public static DadosAtualizacaoPrecificacaoProduto gerarDadosAtualizacaoPrecoProdutoComPrecoNegativo() {
         return new DadosAtualizacaoPrecificacaoProduto(new BigDecimal(-1));
+    }
+
+    public static List<DadosSubtracaoEstoqueProduto> gerarDadosSubtracaoEstoqueProduto(){
+        List<DadosSubtracaoEstoqueProduto> dadosEstoque = new ArrayList<>();
+        dadosEstoque.add(new DadosSubtracaoEstoqueProduto(1, 10));
+        return dadosEstoque;
     }
 }

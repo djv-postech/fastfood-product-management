@@ -45,6 +45,24 @@ spec:
                   name: fastfood-product-management-secret-opaque
                   key: MYSQL_DB
 
+            - name: RABBIT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: RABBIT_HOST
+
+            - name: RABBIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: RABBIT_USERNAME
+
+            - name: RABBIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: fastfood-product-management-secret-opaque
+                  key: RABBIT_PASSWORD
+
 #          livenessProbe:
 #            httpGet:
 #              path: /actuator/health/
